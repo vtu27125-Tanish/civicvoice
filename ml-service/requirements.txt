@@ -1,0 +1,9 @@
+fastapi==0.111.0
+uvicorn==0.30.1
+pandas==2.2.2
+scikit-learn==1.5.0
+pydantic==2.7.4
+opencv-python-headless==4.10.0.84
+vaderSentiment==3.3.2
+deep-translator==1.11.4
+python-multipart==0.0.9
