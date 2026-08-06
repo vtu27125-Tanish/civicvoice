@@ -8,10 +8,23 @@ CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
+    phone VARCHAR(15) NULL,
     password_hash VARCHAR(255) NOT NULL,
     role ENUM('citizen', 'official', 'admin') DEFAULT 'citizen',
     language_pref VARCHAR(20) DEFAULT 'en',
     department_id INT NULL,
+    is_verified BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- One-time codes for registration/login verification
+CREATE TABLE otp_codes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    contact VARCHAR(150) NOT NULL,
+    code VARCHAR(10) NOT NULL,
+    purpose VARCHAR(50) NOT NULL,
+    is_used BOOLEAN DEFAULT FALSE,
+    expires_at TIMESTAMP NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -43,6 +56,17 @@ CREATE TABLE reports (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE SET NULL
+);
+
+-- Citizen upvotes on reports (one vote per user per report)
+CREATE TABLE report_votes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    report_id INT NOT NULL,
+    user_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_vote (report_id, user_id),
+    FOREIGN KEY (report_id) REFERENCES reports(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- Status history: audit trail of status changes
