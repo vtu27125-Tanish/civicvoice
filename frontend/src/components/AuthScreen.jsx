@@ -183,9 +183,9 @@ function LogoMark() {
       style={{
         width: 64, height: 64,
         borderRadius: 20,
-        background: 'linear-gradient(135deg, #00E5CC 0%, #4F8EFF 100%)',
+        background: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        boxShadow: '0 8px 32px rgba(0,229,204,0.35)',
+        boxShadow: '0 8px 32px rgba(124,58,237,0.40)',
         margin: '0 auto 16px',
         position: 'relative'
       }}
@@ -195,11 +195,11 @@ function LogoMark() {
         transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
         style={{
           position: 'absolute', inset: -8, borderRadius: 28,
-          border: '2px solid rgba(0,229,204,0.3)'
+          border: '2px solid rgba(124,58,237,0.3)'
         }}
       />
-      <span className="material-symbols-outlined" style={{ color: '#080C14', fontSize: 32 }}>
-        campaign
+      <span className="material-symbols-outlined" style={{ color: '#FFFFFF', fontSize: 32 }}>
+        neurology
       </span>
     </motion.div>
   );
@@ -350,272 +350,206 @@ export default function AuthScreen({ onAuthenticated }) {
   }
 
   return (
-    <div style={{
-      minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      padding: '24px 16px', position: 'relative'
-    }}>
-      {/* Animated background wash */}
-      <div className="auth-bg-wash" />
-      <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden' }}>
-        {Array.from({ length: 16 }).map((_, i) => (
-          <span
-            key={i}
-            className={`auth-particle${i % 2 ? ' emerald' : ''}`}
-            style={{
-              left: `${(i * 6.3) % 100}%`,
-              animationDuration: `${14 + (i % 5) * 3}s`,
-              animationDelay: `${i * -1.3}s`
-            }}
-          />
-        ))}
+    <div className="auth-layout">
+      {/* ── Hero Panel (Desktop) ── */}
+      <div className="auth-hero-panel">
+        <div className="auth-hero-mesh" />
+        <div className="auth-hero-content">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+            className="auth-hero-title"
+          >
+            Empowering<br />Civic Action
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+            className="auth-hero-subtitle"
+          >
+            Join the next generation of civic participation. Report issues, engage with your community, and see real impact happen in real-time.
+          </motion.p>
+          <div style={{ position: 'absolute', inset: -40, pointerEvents: 'none' }}>
+            <FloatingBadge icon="record_voice_over" title="Voice" sub="Every voice matters" top="10%" left="80%" align="right" delay={0.2} />
+            <FloatingBadge icon="verified_user" title="Trust" sub="Transparent & secure" top="70%" left="15%" align="left" delay={0.4} />
+            <FloatingBadge icon="groups" title="Community" sub="Stronger together" top="65%" left="85%" align="right" delay={0.6} />
+          </div>
+        </div>
       </div>
 
-      <FloatingBadges />
+      {/* ── Form Panel ── */}
+      <div className="auth-form-panel">
+        <div className="auth-bg-wash" style={{ zIndex: -1 }} />
+        <div style={{ position: 'absolute', inset: 0, zIndex: -1, pointerEvents: 'none', overflow: 'hidden' }}>
+          {Array.from({ length: 16 }).map((_, i) => (
+            <span
+              key={i}
+              className={`auth-particle${i % 2 ? ' emerald' : ''}`}
+              style={{ left: `${(i * 6.3) % 100}%`, animationDuration: `${14 + (i % 5) * 3}s`, animationDelay: `${i * -1.3}s` }}
+            />
+          ))}
+        </div>
 
-      <div style={{ width: '100%', maxWidth: 420, position: 'relative', zIndex: 1 }}>
-        <LogoMark />
-
-        <AnimatePresence mode="wait" custom={direction}>
-          {/* ── OTP View ─────────────────────── */}
-          {mode === 'otp' && (
-            <motion.div key="otp" custom={direction} variants={pageVariants}
-              initial="enter" animate="center" exit="exit">
-
-              <div style={{ textAlign: 'center', marginBottom: 28 }}>
-                <h1 style={{ fontSize: 26, marginBottom: 8, letterSpacing: '-0.03em' }}>
-                  Check your inbox
-                </h1>
-                <p style={{ color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.6 }}>
-                  {notice || `We sent a 6-digit code to`}
-                  {!notice && <><br /><strong style={{ color: 'var(--brand-teal)' }}>{pendingEmail}</strong></>}
-                </p>
-              </div>
-
-              <motion.form
-                onSubmit={handleVerify}
-                animate={shakeTrigger ? 'shake' : ''}
-                variants={shakeVariants}
-                style={{
-                  background: 'rgba(255,255,255,0.03)', backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20,
-                  padding: 28, position: 'relative', overflow: 'hidden'
-                }}
-              >
-                <div style={{
-                  position: 'absolute', top: 0, left: 0, right: 0, height: 1,
-                  background: 'linear-gradient(90deg, transparent, rgba(0,229,204,0.3), transparent)'
-                }} />
-
-                <div style={{ textAlign: 'center', marginBottom: 4 }}>
-                  <span className="label-caps">Verification Code</span>
+        <div className="auth-form-container">
+          <LogoMark />
+          <AnimatePresence mode="wait" custom={direction}>
+            {/* ── OTP View ─────────────────────── */}
+            {mode === 'otp' && (
+              <motion.div key="otp" custom={direction} variants={pageVariants} initial="enter" animate="center" exit="exit">
+                <div style={{ textAlign: 'center', marginBottom: 28 }}>
+                  <h1 style={{ fontSize: 26, marginBottom: 8, letterSpacing: '-0.03em' }}>Check your inbox</h1>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.6 }}>
+                    {notice || `We sent a 6-digit code to`}
+                    {!notice && <><br /><strong style={{ color: 'var(--brand-teal)' }}>{pendingEmail}</strong></>}
+                  </p>
                 </div>
-                <OtpInput value={otp} onChange={setOtp} />
-
-                <AnimatePresence>
-                  {error && (
-                    <motion.p initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      style={{ color: 'var(--error)', fontSize: 13, textAlign: 'center', marginBottom: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-                      <span className="material-symbols-outlined" style={{ fontSize: 15 }}>error</span>
-                      {error}
-                    </motion.p>
-                  )}
-                </AnimatePresence>
-
-                <motion.button
-                  whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
-                  type="submit" className="btn-primary"
-                  disabled={submitting || otp.length !== 6}
-                  style={{ marginBottom: 12 }}
-                >
-                  {submitting ? (
-                    <><span className="material-symbols-outlined" style={{ fontSize: 16, animation: 'spin 1s linear infinite' }}>progress_activity</span>Verifying…</>
-                  ) : (
-                    <><span className="material-symbols-outlined" style={{ fontSize: 16 }}>verified</span>Verify Code</>
-                  )}
-                </motion.button>
-
-                <button type="button" onClick={handleResend} disabled={resending}
+                <motion.form
+                  onSubmit={handleVerify} animate={shakeTrigger ? 'shake' : ''} variants={shakeVariants}
                   style={{
-                    background: 'none', border: 'none', color: 'var(--text-muted)',
-                    fontSize: 13, cursor: 'pointer', width: '100%', textAlign: 'center',
-                    transition: 'color 0.2s', padding: 4
-                  }}>
-                  {resending ? 'Sending…' : "Didn't receive it? Resend code"}
-                </button>
-              </motion.form>
-            </motion.div>
-          )}
+                    background: 'rgba(255,255,255,0.03)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.08)',
+                    borderRadius: 20, padding: 28, position: 'relative', overflow: 'hidden'
+                  }}
+                >
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(124,58,237,0.3), transparent)' }} />
+                  <div style={{ textAlign: 'center', marginBottom: 4 }}><span className="label-caps">Verification Code</span></div>
+                  <OtpInput value={otp} onChange={setOtp} />
+                  <AnimatePresence>
+                    {error && (
+                      <motion.p initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                        style={{ color: 'var(--error)', fontSize: 13, textAlign: 'center', marginBottom: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                        <span className="material-symbols-outlined" style={{ fontSize: 15 }}>error</span>{error}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+                  <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} type="submit" className="btn-primary" disabled={submitting || otp.length !== 6} style={{ marginBottom: 12 }}>
+                    {submitting ? <><span className="material-symbols-outlined" style={{ fontSize: 16, animation: 'spin 1s linear infinite' }}>progress_activity</span>Verifying…</> : <><span className="material-symbols-outlined" style={{ fontSize: 16 }}>verified</span>Verify Code</>}
+                  </motion.button>
+                  <button type="button" onClick={handleResend} disabled={resending}
+                    style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: 13, cursor: 'pointer', width: '100%', textAlign: 'center', transition: 'color 0.2s', padding: 4 }}>
+                    {resending ? 'Sending…' : "Didn't receive it? Resend code"}
+                  </button>
+                </motion.form>
+              </motion.div>
+            )}
 
-          {/* ── Login View ───────────────────── */}
-          {mode === 'login' && (
-            <motion.div key="login" custom={direction} variants={pageVariants}
-              initial="enter" animate="center" exit="exit">
+            {/* ── Login View ───────────────────── */}
+            {mode === 'login' && (
+              <motion.div key="login" custom={direction} variants={pageVariants} initial="enter" animate="center" exit="exit">
+                <div style={{ textAlign: 'center', marginBottom: 28 }}>
+                  <h1 style={{ fontSize: 28, marginBottom: 8, letterSpacing: '-0.03em' }}>Welcome back</h1>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: 14 }}>Sign in to your Vexa AI account</p>
+                </div>
+                
+                <div style={{ marginBottom: 24 }}>
+                  <button type="button" className="btn-social">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                    </svg>
+                    Continue with Google
+                  </button>
+                  <button type="button" className="btn-social">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M17.05 13.56c-.02-2.31 1.89-3.42 1.98-3.47-1.07-1.57-2.74-1.78-3.33-1.8-1.42-.14-2.77.84-3.5.84-.71 0-1.83-.81-3.01-.79-1.53.02-2.95.89-3.74 2.26-1.59 2.76-.41 6.84 1.14 9.08.76 1.1 1.66 2.33 2.87 2.28 1.16-.04 1.6-.74 3-.74 1.38 0 1.78.74 3.02.72 1.25-.02 2.05-1.13 2.8-2.24.87-1.27 1.23-2.5 1.25-2.56-.03-.01-2.35-.9-2.48-3.58zM14.94 4.54c.64-.78 1.07-1.86.95-2.94-1.01.04-2.23.68-2.9 1.48-.59.7-.1 1.83-.98 2.83 1.08.08 2.2-.53 2.93-1.37z" />
+                    </svg>
+                    Continue with Apple
+                  </button>
+                </div>
+                <div className="auth-divider">or email</div>
 
-              <div style={{ textAlign: 'center', marginBottom: 28 }}>
-                <h1 style={{ fontSize: 28, marginBottom: 8, letterSpacing: '-0.03em' }}>
-                  Welcome back
-                </h1>
-                <p style={{ color: 'var(--text-secondary)', fontSize: 14 }}>
-                  Sign in to your CivicVoice account
+                <motion.form
+                  onSubmit={handleLogin} animate={shakeTrigger ? 'shake' : ''} variants={shakeVariants}
+                  style={{
+                    background: 'rgba(255,255,255,0.03)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.08)',
+                    borderRadius: 20, padding: '28px 28px 24px', position: 'relative', overflow: 'hidden'
+                  }}
+                >
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(124,58,237,0.3), transparent)' }} />
+                  <FloatingInput label="Email address" id="login-email" type="email" value={email} onChange={e => setEmail(e.target.value)} icon="mail" />
+                  <FloatingInput label="Password" id="login-password" type="password" value={password} onChange={e => setPassword(e.target.value)} icon="lock" />
+                  <AnimatePresence>
+                    {error && (
+                      <motion.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                        style={{ background: 'rgba(255,92,107,0.1)', border: '1px solid rgba(255,92,107,0.2)', borderRadius: 10, padding: '10px 14px', marginBottom: 14, marginTop: 4, display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <span className="material-symbols-outlined" style={{ fontSize: 16, color: 'var(--error)' }}>error</span>
+                        <span style={{ color: 'var(--error)', fontSize: 13, fontWeight: 500 }}>{error}</span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                  <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} type="submit" className="btn-primary" disabled={submitting} style={{ marginTop: 8 }}>
+                    {submitting ? <><span className="material-symbols-outlined" style={{ fontSize: 16 }}>progress_activity</span>Signing in…</> : <><span className="material-symbols-outlined" style={{ fontSize: 16 }}>login</span>Sign In</>}
+                  </motion.button>
+                </motion.form>
+                <p style={{ textAlign: 'center', fontSize: 14, color: 'var(--text-muted)', marginTop: 20 }}>
+                  Don't have an account? <button onClick={() => goTo('signup', -1)} style={{ background: 'none', border: 'none', color: 'var(--brand-teal)', fontWeight: 600, cursor: 'pointer', fontSize: 14, textDecoration: 'none', transition: 'opacity 0.2s' }}>Create account →</button>
                 </p>
-              </div>
+              </motion.div>
+            )}
 
-              <motion.form
-                onSubmit={handleLogin}
-                animate={shakeTrigger ? 'shake' : ''}
-                variants={shakeVariants}
-                style={{
-                  background: 'rgba(255,255,255,0.03)', backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20,
-                  padding: '28px 28px 24px', position: 'relative', overflow: 'hidden'
-                }}
-              >
-                <div style={{
-                  position: 'absolute', top: 0, left: 0, right: 0, height: 1,
-                  background: 'linear-gradient(90deg, transparent, rgba(0,229,204,0.3), transparent)'
-                }} />
+            {/* ── Signup View ──────────────────── */}
+            {mode === 'signup' && (
+              <motion.div key="signup" custom={direction} variants={pageVariants} initial="enter" animate="center" exit="exit">
+                <div style={{ textAlign: 'center', marginBottom: 28 }}>
+                  <h1 style={{ fontSize: 28, marginBottom: 8, letterSpacing: '-0.03em' }}>Create account</h1>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: 14 }}>Join Vexa AI and make your city better</p>
+                </div>
+                
+                <div style={{ marginBottom: 24 }}>
+                  <button type="button" className="btn-social">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                    </svg>
+                    Continue with Google
+                  </button>
+                  <button type="button" className="btn-social">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M17.05 13.56c-.02-2.31 1.89-3.42 1.98-3.47-1.07-1.57-2.74-1.78-3.33-1.8-1.42-.14-2.77.84-3.5.84-.71 0-1.83-.81-3.01-.79-1.53.02-2.95.89-3.74 2.26-1.59 2.76-.41 6.84 1.14 9.08.76 1.1 1.66 2.33 2.87 2.28 1.16-.04 1.6-.74 3-.74 1.38 0 1.78.74 3.02.72 1.25-.02 2.05-1.13 2.8-2.24.87-1.27 1.23-2.5 1.25-2.56-.03-.01-2.35-.9-2.48-3.58zM14.94 4.54c.64-.78 1.07-1.86.95-2.94-1.01.04-2.23.68-2.9 1.48-.59.7-.1 1.83-.98 2.83 1.08.08 2.2-.53 2.93-1.37z" />
+                    </svg>
+                    Continue with Apple
+                  </button>
+                </div>
+                <div className="auth-divider">or email</div>
 
-                <FloatingInput label="Email address" id="login-email" type="email"
-                  value={email} onChange={e => setEmail(e.target.value)} icon="mail" />
-                <FloatingInput label="Password" id="login-password" type="password"
-                  value={password} onChange={e => setPassword(e.target.value)} icon="lock" />
-
-                <AnimatePresence>
-                  {error && (
-                    <motion.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      style={{
-                        background: 'rgba(255,92,107,0.1)', border: '1px solid rgba(255,92,107,0.2)',
-                        borderRadius: 10, padding: '10px 14px', marginBottom: 14, marginTop: 4,
-                        display: 'flex', alignItems: 'center', gap: 8
-                      }}>
-                      <span className="material-symbols-outlined" style={{ fontSize: 16, color: 'var(--error)' }}>error</span>
-                      <span style={{ color: 'var(--error)', fontSize: 13, fontWeight: 500 }}>{error}</span>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                <motion.button
-                  whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
-                  type="submit" className="btn-primary"
-                  disabled={submitting}
-                  style={{ marginTop: 8 }}
-                >
-                  {submitting ? (
-                    <><span className="material-symbols-outlined" style={{ fontSize: 16 }}>progress_activity</span>Signing in…</>
-                  ) : (
-                    <><span className="material-symbols-outlined" style={{ fontSize: 16 }}>login</span>Sign In</>
-                  )}
-                </motion.button>
-              </motion.form>
-
-              <p style={{ textAlign: 'center', fontSize: 14, color: 'var(--text-muted)', marginTop: 20 }}>
-                Don't have an account?{' '}
-                <button onClick={() => goTo('signup', -1)}
+                <motion.form
+                  onSubmit={handleSignup} animate={shakeTrigger ? 'shake' : ''} variants={shakeVariants}
                   style={{
-                    background: 'none', border: 'none', color: 'var(--brand-teal)',
-                    fontWeight: 600, cursor: 'pointer', fontSize: 14,
-                    textDecoration: 'none', transition: 'opacity 0.2s'
-                  }}>
-                  Create account →
-                </button>
-              </p>
-            </motion.div>
-          )}
-
-          {/* ── Signup View ──────────────────── */}
-          {mode === 'signup' && (
-            <motion.div key="signup" custom={direction} variants={pageVariants}
-              initial="enter" animate="center" exit="exit">
-
-              <div style={{ textAlign: 'center', marginBottom: 28 }}>
-                <h1 style={{ fontSize: 28, marginBottom: 8, letterSpacing: '-0.03em' }}>
-                  Create account
-                </h1>
-                <p style={{ color: 'var(--text-secondary)', fontSize: 14 }}>
-                  Join CivicVoice and make your city better
+                    background: 'rgba(255,255,255,0.03)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.08)',
+                    borderRadius: 20, padding: '28px 28px 24px', position: 'relative', overflow: 'hidden'
+                  }}
+                >
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(124,58,237,0.4), transparent)' }} />
+                  <FloatingInput label="Full name" id="signup-name" type="text" value={name} onChange={e => setName(e.target.value)} icon="person" />
+                  <FloatingInput label="Email address" id="signup-email" type="email" value={email} onChange={e => setEmail(e.target.value)} icon="mail" />
+                  <FloatingInput label="Mobile number" id="signup-phone" type="tel" value={phone} onChange={e => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))} icon="phone_iphone" />
+                  <FloatingInput label="Password (min. 6 characters)" id="signup-password" type="password" value={password} onChange={e => setPassword(e.target.value)} icon="lock" />
+                  <AnimatePresence>
+                    {error && (
+                      <motion.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                        style={{ background: 'rgba(255,92,107,0.1)', border: '1px solid rgba(255,92,107,0.2)', borderRadius: 10, padding: '10px 14px', marginBottom: 14, marginTop: 4, display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <span className="material-symbols-outlined" style={{ fontSize: 16, color: 'var(--error)' }}>error</span>
+                        <span style={{ color: 'var(--error)', fontSize: 13, fontWeight: 500 }}>{error}</span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                  <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} type="submit" className="btn-primary" disabled={submitting} style={{ marginTop: 8 }}>
+                    {submitting ? <><span className="material-symbols-outlined" style={{ fontSize: 16 }}>progress_activity</span>Creating account…</> : <><span className="material-symbols-outlined" style={{ fontSize: 16 }}>person_add</span>Create Account</>}
+                  </motion.button>
+                </motion.form>
+                <p style={{ textAlign: 'center', fontSize: 14, color: 'var(--text-muted)', marginTop: 20 }}>
+                  Already have an account? <button onClick={() => goTo('login', 1)} style={{ background: 'none', border: 'none', color: 'var(--brand-teal)', fontWeight: 600, cursor: 'pointer', fontSize: 14, transition: 'opacity 0.2s' }}>Sign in →</button>
                 </p>
-              </div>
-
-              <motion.form
-                onSubmit={handleSignup}
-                animate={shakeTrigger ? 'shake' : ''}
-                variants={shakeVariants}
-                style={{
-                  background: 'rgba(255,255,255,0.03)', backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20,
-                  padding: '28px 28px 24px', position: 'relative', overflow: 'hidden'
-                }}
-              >
-                <div style={{
-                  position: 'absolute', top: 0, left: 0, right: 0, height: 1,
-                  background: 'linear-gradient(90deg, transparent, rgba(79,142,255,0.4), transparent)'
-                }} />
-
-                <FloatingInput label="Full name" id="signup-name" type="text"
-                  value={name} onChange={e => setName(e.target.value)} icon="person" />
-                <FloatingInput label="Email address" id="signup-email" type="email"
-                  value={email} onChange={e => setEmail(e.target.value)} icon="mail" />
-                <FloatingInput label="Mobile number" id="signup-phone" type="tel"
-                  value={phone} onChange={e => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))} icon="phone_iphone" />
-                <FloatingInput label="Password (min. 6 characters)" id="signup-password" type="password"
-                  value={password} onChange={e => setPassword(e.target.value)} icon="lock" />
-
-                <AnimatePresence>
-                  {error && (
-                    <motion.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      style={{
-                        background: 'rgba(255,92,107,0.1)', border: '1px solid rgba(255,92,107,0.2)',
-                        borderRadius: 10, padding: '10px 14px', marginBottom: 14, marginTop: 4,
-                        display: 'flex', alignItems: 'center', gap: 8
-                      }}>
-                      <span className="material-symbols-outlined" style={{ fontSize: 16, color: 'var(--error)' }}>error</span>
-                      <span style={{ color: 'var(--error)', fontSize: 13, fontWeight: 500 }}>{error}</span>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                <motion.button
-                  whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
-                  type="submit" className="btn-primary"
-                  disabled={submitting}
-                  style={{ marginTop: 8 }}
-                >
-                  {submitting ? (
-                    <><span className="material-symbols-outlined" style={{ fontSize: 16 }}>progress_activity</span>Creating account…</>
-                  ) : (
-                    <><span className="material-symbols-outlined" style={{ fontSize: 16 }}>person_add</span>Create Account</>
-                  )}
-                </motion.button>
-              </motion.form>
-
-              <p style={{ textAlign: 'center', fontSize: 14, color: 'var(--text-muted)', marginTop: 20 }}>
-                Already have an account?{' '}
-                <button onClick={() => goTo('login', 1)}
-                  style={{
-                    background: 'none', border: 'none', color: 'var(--brand-teal)',
-                    fontWeight: 600, cursor: 'pointer', fontSize: 14, transition: 'opacity 0.2s'
-                  }}>
-                  Sign in →
-                </button>
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Footer */}
-        <motion.p
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
-          style={{ textAlign: 'center', fontSize: 12, color: 'var(--text-muted)', marginTop: 32 }}>
-          CivicVoice · AI-powered civic platform
-        </motion.p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} style={{ textAlign: 'center', fontSize: 12, color: 'var(--text-muted)', marginTop: 32 }}>
+            Vexa AI · Intelligent civic platform
+          </motion.p>
+        </div>
       </div>
-
-      <style>{`
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-      `}</style>
+      <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }
