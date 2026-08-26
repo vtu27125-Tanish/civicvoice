@@ -275,75 +275,38 @@ export default function InteractiveMap({
         outerCircle.addTo(markerGroup);
         innerCircle.addTo(markerGroup);
       } else {
-        // Standard high-tech markers
-        let statusSymbol = "⚠️";
-        if (issue.status === "Resolved") statusSymbol = "✅";
-        if (issue.status === "In Progress") statusSymbol = "⚙️";
-
-        const divIcon = L.divIcon({
-          className: "custom-issue-marker",
-          html: `
-            <div class="relative group cursor-pointer flex items-center justify-center">
-              <span class="absolute inline-flex h-6 w-6 animate-ping rounded-full" style="background-color: ${color}; opacity: 0.3;"></span>
-              <div class="relative w-5 h-5 rounded-full border border-white text-white flex items-center justify-center text-[10px] font-bold shadow-lg transition-transform duration-300 hover:scale-125"
-                   style="background-color: ${color}; box-shadow: 0 0 10px ${glowColor};">
-                ${statusSymbol}
-              </div>
-            </div>
-          `,
-          iconSize: [24, 24],
-          iconAnchor: [12, 12],
+        // Standard simple circle markers (reverting to previous CitizenMap design)
+        const marker = L.circleMarker([issue.latitude, issue.longitude], {
+          radius: 9,
+          color: color,
+          fillColor: color,
+          fillOpacity: 0.75,
+          weight: 2,
         });
 
-        const marker = L.marker([issue.latitude, issue.longitude], { icon: divIcon });
-
         const popupContent = document.createElement("div");
-        const isDark = theme === "dark";
-        popupContent.className = `p-3 font-sans w-64 rounded-lg border transition-colors duration-300 ${
-          isDark
-            ? "text-slate-100 bg-[#0a0d14] border-white/10"
-            : "text-slate-800 bg-white border-slate-200/80 shadow-sm"
-        }`;
+        popupContent.style.padding = "4px";
+        popupContent.style.fontFamily = "sans-serif";
+        popupContent.style.fontSize = "13px";
         popupContent.innerHTML = `
-          <div class="flex items-center justify-between mb-1">
-            <span class="px-2 py-0.5 text-[10px] font-semibold rounded-full border ${
-              isDark
-                ? "bg-white/5 text-blue-300 border-white/10"
-                : "bg-blue-50 text-blue-600 border-blue-100"
-            }">
-              ${issue.category}
-            </span>
-            <span class="px-1.5 py-0.5 text-[9px] font-bold rounded text-white ${
-              issue.severity === "Critical"
-                ? "bg-rose-500"
-                : issue.severity === "High"
-                  ? "bg-orange-500"
-                  : issue.severity === "Medium"
-                    ? "bg-yellow-500"
-                    : "bg-emerald-500"
-            }">
-              ${issue.severity}
-            </span>
-          </div>
-          <h4 class="font-bold text-sm line-clamp-1 mb-1 ${isDark ? "text-white" : "text-slate-900"}">${issue.title}</h4>
-          <p class="text-xs line-clamp-2 mb-2 ${isDark ? "text-slate-300" : "text-slate-600"}">${issue.description}</p>
-          <div class="flex items-center justify-between text-[10px] border-t pt-2 ${
-            isDark ? "text-slate-400 border-white/5" : "text-slate-500 border-slate-100"
-          }">
-            <span>❤️ ${issue.upvotes} Upvotes</span>
-            <span class="font-semibold text-blue-500 dark:text-blue-400">View Details →</span>
-          </div>
+          <strong>${issue.category}</strong><br />
+          Status: <span style="text-transform: capitalize">${issue.status}</span><br />
+          ${issue.upvotes > 0 ? `👍 ${issue.upvotes} confirmed<br />` : ''}
+          <button class="text-blue-500 font-bold mt-2" style="background:none; border:none; padding:0; cursor:pointer;">View Details</button>
         `;
 
         marker.bindPopup(popupContent, {
-          closeButton: false,
-          offset: L.point(0, -5),
+          closeButton: true,
+          offset: L.point(0, 0),
         });
 
         marker.on("popupopen", () => {
-          popupContent.onclick = () => {
-            onSelectIssue(issue);
-          };
+          const btn = popupContent.querySelector("button");
+          if (btn) {
+            btn.onclick = () => {
+              onSelectIssue(issue);
+            };
+          }
         });
 
         marker.addTo(markerGroup);

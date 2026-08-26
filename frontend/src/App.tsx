@@ -1434,11 +1434,15 @@ export default function App() {
 
           {/* 0. HOME TAB VIEW */}
           {activeTab === "home" && (
-            <HomeView
-              onNavigate={(tab) => setActiveTab(tab as any)}
-              theme={theme}
-              userName={isLoggedIn ? data.currentUser.name : "Guest Resident"}
-            />
+            isLoggedIn ? (
+              <HomeView
+                onNavigate={(tab) => setActiveTab(tab as any)}
+                theme={theme}
+                userName={data.currentUser.name}
+              />
+            ) : (
+              <AuthPage users={data.users} onLogin={handleLogin} onResetPassword={handleResetPassword} theme={theme} />
+            )
           )}
 
           {/* 2. ANALYTICS TAB */}
