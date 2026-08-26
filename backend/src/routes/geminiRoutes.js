@@ -32,26 +32,26 @@ async function getBase64FromUrl(url) {
 function generateFallbackAnalyze(text) {
   const normalized = (text || "").toLowerCase();
   
-  let category = "other";
+  let category = "Others";
   if (normalized.includes("road") || normalized.includes("pothole") || normalized.includes("pavement")) {
-    category = "pothole";
-  } else if (normalized.includes("water") || normalized.includes("leak") || normalized.includes("pipe")) {
-    category = "water";
+    category = "Road Hazards";
+  } else if (normalized.includes("water") || normalized.includes("leak") || normalized.includes("pipe") || normalized.includes("drain")) {
+    category = "Water & Sanitation";
   } else if (normalized.includes("light") || normalized.includes("bulb") || normalized.includes("dark")) {
-    category = "streetlight";
+    category = "Streetlights";
   } else if (normalized.includes("garbage") || normalized.includes("trash") || normalized.includes("waste")) {
-    category = "garbage";
-  } else if (normalized.includes("sewage") || normalized.includes("drain")) {
-    category = "sewage";
-  } else if (normalized.includes("electricity") || normalized.includes("power")) {
-    category = "electricity";
+    category = "Waste Management";
+  } else if (normalized.includes("sewage") || normalized.includes("public")) {
+    category = "Public Facilities";
+  } else if (normalized.includes("safety") || normalized.includes("vandal")) {
+    category = "Vandals & Safety";
   }
 
-  let severity = "medium";
-  if (normalized.includes("urgent") || normalized.includes("critical") || normalized.includes("danger")) {
-    severity = "high";
+  let severity = "Medium";
+  if (normalized.includes("urgent") || normalized.includes("critical") || normalized.includes("danger") || normalized.includes("severe")) {
+    severity = "High";
   } else if (normalized.includes("minor") || normalized.includes("small")) {
-    severity = "low";
+    severity = "Low";
   }
 
   let title = text ? (text.length > 50 ? text.substring(0, 47) + "..." : text) : "New Community Issue";
@@ -63,6 +63,7 @@ function generateFallbackAnalyze(text) {
     title,
     category,
     severity,
+    estimatedResolutionDays: severity === "High" ? 3 : 5,
     description: `[Diagnostic Fallback] ${description}`,
   };
 }
