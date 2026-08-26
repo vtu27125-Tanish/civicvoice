@@ -29,6 +29,7 @@ import {
   Sun,
   Moon,
   LogIn,
+  LogOut,
   Bell,
   BellOff,
 } from "lucide-react";
@@ -1037,8 +1038,6 @@ export default function App() {
             { id: "map", label: "Map Tracker", icon: Map },
             { id: "dashboard", label: "Analytics", icon: BarChart3 },
             { id: "report", label: "Report Issue", icon: PlusCircle },
-            { id: "leaderboard", label: "Leaderboard", icon: Trophy },
-            { id: "profile", label: "Hero Stats", icon: UserIcon },
             { id: "vmc", label: "CMC Portal", icon: ShieldCheck },
           ].map((tab) => {
             const isActive = activeTab === tab.id;
@@ -1457,32 +1456,6 @@ export default function App() {
             )
           )}
 
-          {/* 4. LEADERBOARD TAB */}
-          {activeTab === "leaderboard" && (
-            isLoggedIn ? (
-              <Leaderboard users={data.users} currentUser={data.currentUser} theme={theme} />
-            ) : (
-              <AuthPage users={data.users} onLogin={handleLogin} onResetPassword={handleResetPassword} theme={theme} />
-            )
-          )}
-
-          {/* 5. PROFILE TAB */}
-          {activeTab === "profile" && (
-            isLoggedIn ? (
-              <Profile
-                currentUser={data.currentUser}
-                onUpdateUser={handleUpdateUser}
-                onResetData={handleResetData}
-                users={data.users}
-                onLogin={handleLogin}
-                onLogout={handleLogout}
-                theme={theme}
-              />
-            ) : (
-              <AuthPage users={data.users} onLogin={handleLogin} onResetPassword={handleResetPassword} theme={theme} />
-            )
-          )}
-
           {/* VMC PORTAL TAB */}
           {activeTab === "vmc" && (
             isLoggedIn ? (
@@ -1569,7 +1542,6 @@ export default function App() {
             { id: "map", icon: Map },
             { id: "report", icon: PlusCircle, isPrimary: true },
             { id: "dashboard", icon: BarChart3 },
-            { id: "profile", icon: UserIcon },
           ].map((tab) => {
             const isActive = activeTab === tab.id;
             return (
@@ -1591,6 +1563,19 @@ export default function App() {
               </button>
             );
           })}
+          
+          {/* Quick Logout Button */}
+          {isLoggedIn && (
+            <button
+              onClick={handleLogout}
+              title="Sign Out"
+              className={`p-2 rounded-xl border transition-all cursor-pointer shadow-sm hover:scale-[1.03] ${
+                theme === "dark" ? "bg-rose-500/10 border-rose-500/20 text-rose-400 hover:bg-rose-500/20" : "bg-rose-50 border-rose-200 text-rose-500 hover:bg-rose-100"
+              }`}
+            >
+              <LogOut className="h-4 w-4" />
+            </button>
+          )}
         </div>
       </div>
     </div>
