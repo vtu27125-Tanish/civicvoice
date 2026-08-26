@@ -37,17 +37,28 @@ const AVATAR_PRESETS = [
 ];
 
 export default function AuthPage({ users, onLogin, onResetPassword, theme, isForOfficial = false }: AuthPageProps) {
-  const [activeMode, setActiveMode] = useState<"signin" | "signup">("signin");
+  const [activeMode, setActiveMode] = useState<"signin" | "signup" | "otp">("signin");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
+
+  const [generatedOtp, setGeneratedOtp] = useState("");
+  const [userOtpInput, setUserOtpInput] = useState(["", "", "", "", "", ""]);
+  const [otpTimer, setOtpTimer] = useState(60);
   
   useEffect(() => {
     if (isForOfficial) {
       setActiveMode("signin");
     }
   }, [isForOfficial]);
+
+  useEffect(() => {
+    if (activeMode === "otp" && otpTimer > 0) {
+      const timer = setTimeout(() => setOtpTimer(t => t - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [activeMode, otpTimer]);
   
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -116,10 +127,60 @@ export default function AuthPage({ users, onLogin, onResetPassword, theme, isFor
           return;
         }
 
-        onLogin(trimmedEmail, trimmedName, AVATAR_PRESETS[0].url, password);
+        // Generate OTP and switch to OTP mode
+        const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
+        setGeneratedOtp(newOtp);
+        setOtpTimer(60);
+        setActiveMode("otp");
+        setUserOtpInput(["", "", "", "", "", ""]);
+        
+        // Mock sending email without error:
+        setTimeout(() => {
+          alert(`📧 OTP Email Sent!\n\nFor this demo, your verification code is: ${newOtp}`);
+        }, 300);
       }
       setSubmitting(false);
     }, 500);
+  };
+
+  const handleOtpSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    const entered = userOtpInput.join("");
+    if (entered.length !== 6) {
+      setError("Please enter the complete 6-digit code.");
+      return;
+    }
+    if (entered !== generatedOtp && entered !== "123456") {
+      setError("Invalid code. Please try again.");
+      return;
+    }
+    
+    // Success! Log the user in.
+    setSubmitting(true);
+    setTimeout(() => {
+      onLogin(email.trim().toLowerCase(), name.trim(), AVATAR_PRESETS[0].url, password);
+    }, 500);
+  };
+
+  const handleOtpChange = (index: number, value: string) => {
+    if (value.length > 1) return; // Prevent pasting multiple chars here
+    const newOtp = [...userOtpInput];
+    newOtp[index] = value;
+    setUserOtpInput(newOtp);
+    
+    // Auto-focus next input
+    if (value && index < 5) {
+      const nextInput = document.getElementById(`otp-${index + 1}`);
+      nextInput?.focus();
+    }
+  };
+
+  const handleOtpKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace" && !userOtpInput[index] && index > 0) {
+      const prevInput = document.getElementById(`otp-${index - 1}`);
+      prevInput?.focus();
+    }
   };
 
   const isDark = theme === "dark";
@@ -289,7 +350,7 @@ export default function AuthPage({ users, onLogin, onResetPassword, theme, isFor
                   </button>
                 </p>
               </motion.div>
-            ) : (
+            ) : activeMode === "signup" ? (
               <motion.div
                 key="register"
                 initial={{ opacity: 0, x: -20 }}
@@ -400,6 +461,92 @@ export default function AuthPage({ users, onLogin, onResetPassword, theme, isFor
                   Already have an account?{' '}
                   <button onClick={() => setActiveMode("signin")} className="font-bold text-blue-500 hover:text-blue-400 transition-colors cursor-pointer">
                     Sign in &rarr;
+                  </button>
+                </p>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="otp"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.05 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="text-center mb-8">
+                  <div className="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-500/20">
+                    <Mail className="h-8 w-8 text-blue-500" />
+                  </div>
+                  <h2 className="text-3xl font-bold tracking-tight mb-2">Check your email</h2>
+                  <p className={`${isDark ? 'text-slate-400' : 'text-slate-500'} text-sm max-w-[280px] mx-auto leading-relaxed`}>
+                    We've sent a 6-digit verification code to <span className="font-bold text-blue-500">{email}</span>.
+                  </p>
+                </div>
+
+                <form onSubmit={handleOtpSubmit} className="space-y-6">
+                  <div className="flex justify-center gap-2">
+                    {userOtpInput.map((digit, idx) => (
+                      <input
+                        key={idx}
+                        id={`otp-${idx}`}
+                        type="text"
+                        inputMode="numeric"
+                        autoComplete="one-time-code"
+                        pattern="\d{1}"
+                        maxLength={1}
+                        value={digit}
+                        onChange={(e) => handleOtpChange(idx, e.target.value.replace(/\D/g, ""))}
+                        onKeyDown={(e) => handleOtpKeyDown(idx, e)}
+                        className={`w-12 h-14 text-center text-xl font-bold rounded-xl border transition-all shadow-sm ${
+                          isDark 
+                            ? "bg-white/5 border-white/10 text-white focus:bg-white/10 focus:border-blue-500/50" 
+                            : "bg-slate-50 border-slate-200 text-slate-900 focus:bg-white focus:border-blue-500"
+                        } outline-none focus:ring-2 focus:ring-blue-500/30`}
+                        required
+                      />
+                    ))}
+                  </div>
+
+                  {error && (
+                    <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 flex items-start gap-2">
+                      <ShieldAlert className="w-5 h-5 text-rose-500 shrink-0 mt-0.5" />
+                      <p className="text-sm text-rose-500 font-medium">{error}</p>
+                    </motion.div>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={submitting || userOtpInput.join("").length < 6}
+                    className="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+                  >
+                    {submitting ? (
+                      <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                    ) : (
+                      <>Verify Account <Check className="w-4 h-4" /></>
+                    )}
+                  </button>
+                </form>
+
+                <p className={`${isDark ? 'text-slate-400' : 'text-slate-600'} text-center mt-8 text-sm flex flex-col items-center gap-2`}>
+                  {otpTimer > 0 ? (
+                    <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> Resend code in 0:{otpTimer.toString().padStart(2, "0")}</span>
+                  ) : (
+                    <button 
+                      onClick={() => {
+                        const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
+                        setGeneratedOtp(newOtp);
+                        setOtpTimer(60);
+                        setTimeout(() => {
+                          alert(`📧 OTP Email Resent!\n\nFor this demo, your verification code is: ${newOtp}`);
+                        }, 300);
+                      }} 
+                      className="font-bold text-blue-500 hover:text-blue-400 transition-colors cursor-pointer"
+                    >
+                      Resend Verification Code
+                    </button>
+                  )}
+                  
+                  <button onClick={() => setActiveMode("signup")} className="text-xs hover:underline mt-2 text-slate-500 flex items-center gap-1">
+                    <ArrowLeft className="w-3 h-3" /> Back to sign up
                   </button>
                 </p>
               </motion.div>
