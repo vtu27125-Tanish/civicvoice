@@ -459,7 +459,7 @@ ${insights ? insights.communityTip : "Be a CivicVoice!"}
             </div>
             <div>
               <h3 className="text-base font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-                Gemini AI Predictive Analytics
+                Smart AI Predictive Analytics
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">Advanced meteorological and historical municipal forecasts.</p>
             </div>
@@ -478,7 +478,7 @@ ${insights ? insights.communityTip : "Be a CivicVoice!"}
             <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
             <div className="text-center">
               <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">Evaluating community issue trends...</p>
-              <p className="text-xs text-slate-400 dark:text-slate-500">Querying Gemini 3.5 Flash for infrastructure threat matrix.</p>
+              <p className="text-xs text-slate-400 dark:text-slate-500">Querying Smart AI Engine for infrastructure threat matrix.</p>
             </div>
           </div>
         ) : insights ? (

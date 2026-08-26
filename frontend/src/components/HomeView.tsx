@@ -102,7 +102,7 @@ export default function HomeView({ onNavigate, theme, userName }: HomeViewProps)
             {
               step: "02",
               title: "AI Analysis",
-              description: "Our Gemini-3.5-powered pipeline automatically suggests labels, categories, and priority.",
+              description: "Our AI-powered pipeline automatically suggests labels, categories, and priority.",
               icon: Sparkles,
               color: "bg-pink-500/10 text-pink-500 dark:text-pink-300 border-pink-500/20",
               pastelBg: "bg-pink-50/50 dark:bg-pink-950/10",

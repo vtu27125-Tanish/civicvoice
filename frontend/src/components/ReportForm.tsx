@@ -107,7 +107,7 @@ export default function ReportForm({ onSubmitIssue, issues, theme = "dark" }: Re
   const handleAiAutoFill = async () => {
     setIsAnalyzing(true);
     setAiError(null);
-    setLoadingStep("Connecting to Gemini 3.5 Flash...");
+    setLoadingStep("Connecting to Smart AI Engine...");
 
     try {
       // Simulate stepped planning output for realistic civic AI feel
@@ -235,7 +235,7 @@ export default function ReportForm({ onSubmitIssue, issues, theme = "dark" }: Re
               Report Community Issue
             </h1>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-              Add details, upload photo proof, and select GPS coordinates. Use Gemini AI to auto-fill details instantly.
+              Add details, upload photo proof, and select GPS coordinates. Use Smart AI to auto-fill details instantly.
             </p>
           </div>
 
@@ -315,7 +315,7 @@ export default function ReportForm({ onSubmitIssue, issues, theme = "dark" }: Re
                 ) : (
                   <>
                     <Sparkles className="h-3.5 w-3.5 text-blue-400 animate-pulse" />
-                    <span>Gemini AI Auto-Fill Form</span>
+                    <span>Smart AI Auto-Fill Form</span>
                   </>
                 )}
               </button>

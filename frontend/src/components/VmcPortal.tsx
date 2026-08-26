@@ -612,7 +612,7 @@ export default function VmcPortal({ issues, currentUser, onVmcVerify, onVmcUpdat
                 </div>
 
                 <p className="text-[10px] text-slate-400 leading-snug">
-                  Extract hyperlocal safety risks, identify structural elements, and generate preventative actions using Gemini AI Vision.
+                  Extract hyperlocal safety risks, identify structural elements, and generate preventative actions using Smart AI Vision.
                 </p>
 
                 {extractedSceneData && (
