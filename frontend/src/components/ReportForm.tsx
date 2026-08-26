@@ -224,6 +224,12 @@ export default function ReportForm({ onSubmitIssue, issues, theme = "dark" }: Re
       return;
     }
 
+    // Geofence check: Ensure the issue is within India
+    if (latitude < 6.75 || latitude > 37.5 || longitude < 68.16 || longitude > 97.4) {
+      alert("CivicVoice is currently only accepting reports from within India. Please adjust your location.");
+      return;
+    }
+
     onSubmitIssue({
       title,
       description,

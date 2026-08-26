@@ -60,9 +60,17 @@ export default function InteractiveMap({
   useEffect(() => {
     if (!mapContainerRef.current || mapRef.current) return;
 
+    // Define India's bounding box
+    const southWest = L.latLng(6.75, 68.16);
+    const northEast = L.latLng(37.5, 97.4);
+    const indiaBounds = L.latLngBounds(southWest, northEast);
+
     // Center dynamically based on coordinates of existing issues or global viewport
     const map = L.map(mapContainerRef.current, {
       zoomControl: false,
+      maxBounds: indiaBounds,
+      maxBoundsViscosity: 1.0,
+      minZoom: 4,
     });
 
     const validIssues = issues.filter((issue) => !issue.isSpam);
