@@ -72,10 +72,10 @@ export default function InteractiveMap({
         const group = L.featureGroup(markers);
         map.fitBounds(group.getBounds().pad(0.15));
       } catch (e) {
-        map.setView([20, 0], 2);
+        map.setView([20.5937, 78.9629], 5); // India center
       }
     } else {
-      map.setView([20, 0], 2);
+      map.setView([20.5937, 78.9629], 5); // India center
     }
 
     // Try geolocation to focus close to the user in picker mode

@@ -27,10 +27,33 @@ export default function ReportForm({ onSubmitIssue, issues, theme = "dark" }: Re
   const [category, setCategory] = useState<Issue["category"]>("Road Hazards");
   const [severity, setSeverity] = useState<Issue["severity"]>("Medium");
   const [estimatedResolutionDays, setEstimatedResolutionDays] = useState(5);
-  const [latitude, setLatitude] = useState(22.3072);
-  const [longitude, setLongitude] = useState(73.1812);
+  const [latitude, setLatitude] = useState(20.5937); // India Default
+  const [longitude, setLongitude] = useState(78.9629); // India Default
+  
+  const [resolvedAddress, setResolvedAddress] = useState<string>("Fetching address...");
 
-  // File Upload State
+  useEffect(() => {
+    const fetchAddress = async () => {
+      try {
+        setResolvedAddress("Fetching address...");
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+        const data = await res.json();
+        if (data && data.display_name) {
+          setResolvedAddress(data.display_name);
+        } else {
+          setResolvedAddress("Address not found");
+        }
+      } catch (e) {
+        setResolvedAddress("Address lookup failed");
+      }
+    };
+    
+    // Add a small debounce so we don't spam the API while dragging
+    const timer = setTimeout(fetchAddress, 800);
+    return () => clearTimeout(timer);
+  }, [latitude, longitude]);
+
+  // Image Upload Handlers
   const [imageBase64, setImageBase64] = useState<string | null>(null);        // compressed, for preview + Gemini
   const [imageMimeType, setImageMimeType] = useState<string | null>(null);
   const [imageToStore, setImageToStore] = useState<string | null>(null);       // thumbnail-only, safe for localStorage
@@ -428,6 +451,13 @@ export default function ReportForm({ onSubmitIssue, issues, theme = "dark" }: Re
               <div className="space-y-1">
                 <span className="text-[10px] text-slate-500 block uppercase font-bold tracking-wider font-mono">Longitude</span>
                 <span className="text-xs text-blue-300 font-mono font-bold">{longitude.toFixed(6)}</span>
+              </div>
+              <div className="col-span-2 space-y-1 pt-2 border-t border-slate-200 dark:border-white/10 mt-1">
+                <span className="text-[10px] text-slate-500 block uppercase font-bold tracking-wider font-mono flex items-center justify-between">
+                  Live Address
+                  {resolvedAddress === "Fetching address..." && <Loader2 className="h-3 w-3 animate-spin text-blue-400" />}
+                </span>
+                <span className="text-xs text-slate-700 dark:text-slate-300 font-medium leading-tight">{resolvedAddress}</span>
               </div>
             </div>
 
