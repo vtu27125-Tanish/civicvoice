@@ -1028,8 +1028,8 @@ export default function App() {
           </div>
         </div>
 
-        {/* Tab Controls */}
-        <div className={`flex items-center gap-1.5 px-2 py-1.5 rounded-xl shrink-0 border ${
+        {/* Tab Controls (Desktop Only) */}
+        <div className={`hidden md:flex items-center gap-1.5 px-2 py-1.5 rounded-xl shrink-0 border ${
           theme === "dark" ? "bg-white/5 border-white/5" : "bg-slate-100 border-slate-200/50"
         }`}>
           {[
@@ -1557,6 +1557,41 @@ export default function App() {
             </motion.div>
           ))}
         </AnimatePresence>
+      </div>
+
+      {/* 8. MOBILE FLOATING BOTTOM NAV */}
+      <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-sm">
+        <div className={`flex items-center justify-between px-4 py-3 rounded-2xl shadow-2xl backdrop-blur-md border ${
+          theme === "dark" ? "bg-slate-900/90 border-white/10" : "bg-white/90 border-slate-200/60"
+        }`}>
+          {[
+            { id: "home", icon: Home },
+            { id: "map", icon: Map },
+            { id: "report", icon: PlusCircle, isPrimary: true },
+            { id: "dashboard", icon: BarChart3 },
+            { id: "profile", icon: UserIcon },
+          ].map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`flex flex-col items-center justify-center gap-1 transition-all ${
+                  tab.isPrimary 
+                    ? "-mt-8 h-14 w-14 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/40 border-4 border-[#0b0f19]" 
+                    : isActive
+                      ? "text-blue-500 scale-110"
+                      : "text-slate-400 hover:text-slate-300"
+                }`}
+              >
+                <tab.icon className={tab.isPrimary ? "h-6 w-6" : "h-5 w-5"} />
+                {isActive && !tab.isPrimary && (
+                  <span className="h-1 w-1 rounded-full bg-blue-500 absolute -bottom-2" />
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

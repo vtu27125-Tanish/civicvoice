@@ -261,6 +261,7 @@ export default function ReportForm({ onSubmitIssue, issues, theme = "dark" }: Re
                   ref={fileInputRef}
                   onChange={handleFileChange}
                   accept="image/*"
+                  capture="environment"
                   className="hidden"
                 />
 
