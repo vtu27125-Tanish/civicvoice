@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import {
   fetchReports, fetchAnalytics, fetchHotspots, fetchTrends,
-  fetchHotspotTrends, fetchPriorityQueue, updateReportStatus
+  fetchHotspotTrends, fetchPriorityQueue, updateReportStatus, getPredictiveInsights
 } from '../api';
 import AnimatedCounter from './AnimatedCounter';
 import ManageReportModal from './ManageReportModal';
@@ -61,6 +61,7 @@ export default function OfficialDashboard({ token, onLogout }) {
   const [error, setError] = useState('');
   const [navKey, setNavKey] = useState('overview');
   const [managingReportId, setManagingReportId] = useState(null);
+  const [insights, setInsights] = useState(null);
 
   async function loadData() {
     setLoading(true);
@@ -83,6 +84,10 @@ export default function OfficialDashboard({ token, onLogout }) {
       setTrends(trendsData.trends || []);
       setHotspotTrends(hotspotTrendsData.trends || []);
       setPriorityQueue(priorityData);
+
+      if (reportsData && reportsData.length > 0) {
+        getPredictiveInsights(token, reportsData).then(setInsights).catch(() => {});
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -206,6 +211,37 @@ export default function OfficialDashboard({ token, onLogout }) {
                   <div style={{ fontSize: 12, color: 'var(--on-surface-variant)', marginTop: 4 }}>clustered by DBSCAN</div>
                 </div>
               </div>
+
+              {insights && (
+                <div className="card" style={{ background: 'var(--surface-container-high)' }}>
+                  <div className="label-caps" style={{ marginBottom: 12, color: 'var(--primary)' }}>
+                    <span className="material-symbols-outlined" style={{ fontSize: 16, verticalAlign: 'middle', marginRight: 6 }}>neurology</span>
+                    AI Predictive Insights
+                  </div>
+                  <p style={{ fontWeight: 500, marginBottom: 16 }}>{insights.generalTrend}</p>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+                    {(insights.categoriesAtRisk || []).map((risk, idx) => (
+                      <div key={idx} style={{ padding: 12, background: 'var(--surface-container-highest)', borderRadius: 8 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+                          <strong style={{ textTransform: 'capitalize' }}>{risk.category}</strong>
+                          <span className={`tag urgency-${risk.riskLevel.toLowerCase()}`}>{risk.riskLevel} Risk</span>
+                        </div>
+                        <p style={{ fontSize: 13, color: 'var(--on-surface-variant)', margin: 0 }}>{risk.reason}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{ padding: 12, background: 'rgba(22, 101, 52, 0.1)', borderRadius: 8, border: '1px solid rgba(22, 101, 52, 0.2)' }}>
+                    <strong style={{ color: '#166534', display: 'block', marginBottom: 4 }}>Suggested Actions</strong>
+                    <ul style={{ margin: 0, paddingLeft: 20, fontSize: 13, color: 'var(--on-surface-variant)' }}>
+                      {(insights.suggestedActions || []).map((action, idx) => (
+                        <li key={idx}>{action}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
 
               <div className="card map-card">
                 <MapContainer center={mapCenter} zoom={12} style={{ height: '100%', width: '100%' }}>

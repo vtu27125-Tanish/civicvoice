@@ -14,6 +14,7 @@ CREATE TABLE users (
     language_pref VARCHAR(20) DEFAULT 'en',
     department_id INT NULL,
     is_verified BOOLEAN DEFAULT FALSE,
+    xp INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -52,6 +53,7 @@ CREATE TABLE reports (
     lng DECIMAL(11, 8) NOT NULL,
     address_text VARCHAR(255) NULL,
     is_duplicate BOOLEAN DEFAULT FALSE,
+    priority_score INT DEFAULT 50,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,

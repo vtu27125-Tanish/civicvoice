@@ -130,6 +130,25 @@ router.post(
       const io = req.app.get('io');
       if (io) io.emit('new_report', { id: result.insertId, category, urgency_score, lat, lng });
 
+      // Run Gemini Auto-Agent asynchronously in the background
+      axios.post(`http://localhost:${process.env.PORT || 5000}/api/gemini/auto-agent`, {
+        newIssue: { id: result.insertId, category, severity: urgency_score, lat, lng },
+        existingIssues: nearby
+      }).then(async (agentRes) => {
+        const agentData = agentRes.data;
+        if (agentData && agentData.priorityScore) {
+          // Update the DB with the priority score
+          await pool.query('UPDATE reports SET priority_score = ? WHERE id = ?', [agentData.priorityScore, result.insertId]);
+          // Add dispatch note as a comment
+          if (agentData.dispatchNote) {
+            await pool.query(
+              'INSERT INTO report_status_history (report_id, status, updated_by, notes) VALUES (?, ?, ?, ?)',
+              [result.insertId, 'reported', null, agentData.dispatchNote]
+            );
+          }
+        }
+      }).catch(err => console.error("Auto-agent failed:", err.message));
+
       res.status(201).json({
         id: result.insertId,
         category,

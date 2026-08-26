@@ -6,6 +6,7 @@ require('dotenv').config();
 
 const authRoutes = require('./routes/authRoutes');
 const reportRoutes = require('./routes/reportRoutes');
+const geminiRoutes = require('./routes/geminiRoutes');
 
 const app = express();
 const server = http.createServer(app);
@@ -20,6 +21,7 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/gemini', geminiRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'CivicVoice backend running' });

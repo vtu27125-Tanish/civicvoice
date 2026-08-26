@@ -297,3 +297,33 @@ export async function updateReportStatus(token, id, status) {
   }
   return res.json();
 }
+
+export async function analyzeIssue(token, imageBase64) {
+  const res = await fetch(`${API_BASE}/gemini/analyze-issue`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ imageBase64 })
+  });
+  if (!res.ok) throw new Error('AI analysis failed');
+  return res.json();
+}
+
+export async function getPredictiveInsights(token, issues) {
+  const res = await fetch(`${API_BASE}/gemini/predictive-insights`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ issues })
+  });
+  if (!res.ok) throw new Error('AI insights failed');
+  return res.json();
+}
+
+export async function autoAgent(token, newIssue, existingIssues) {
+  const res = await fetch(`${API_BASE}/gemini/auto-agent`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ newIssue, existingIssues })
+  });
+  if (!res.ok) throw new Error('Auto-agent failed');
+  return res.json();
+}

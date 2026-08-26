@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { submitReport, verifyPhoto } from '../api';
+import { submitReport, verifyPhoto, analyzeIssue } from '../api';
 import StatusTimeline from './StatusTimeline';
 
 const CATEGORY_CHIPS = [
@@ -74,6 +74,25 @@ export default function ReportForm({ token }) {
     try {
       const check = await verifyPhoto(token, file);
       setPhotoCheck(check);
+      
+      // Auto-analyze with Gemini
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        try {
+          const base64String = reader.result;
+          const analysis = await analyzeIssue(token, base64String);
+          if (analysis.description) {
+             setDescription(prev => prev ? `${prev}\n\n[AI Extracted] ${analysis.description}` : analysis.description);
+          }
+          if (analysis.category) {
+             setSelectedChip(analysis.category.toLowerCase());
+          }
+        } catch (aiErr) {
+          console.warn("AI Analysis failed:", aiErr);
+        }
+      };
+      reader.readAsDataURL(file);
+
     } catch {
       setPhotoCheck({ valid: false, issues: ['Could not verify photo — you can still submit'] });
     } finally {
