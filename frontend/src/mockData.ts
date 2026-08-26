@@ -247,11 +247,11 @@ export function getStoredData() {
     };
   }
 
-  const storedIssues = localStorage.getItem("community_hero_issues");
-  const storedBadges = localStorage.getItem("community_hero_badges");
-  const storedUsers = localStorage.getItem("community_hero_users");
-  const storedCurrentUser = localStorage.getItem("community_hero_current_user");
-  const storedNotifications = localStorage.getItem("community_hero_notifications");
+  const storedIssues = localStorage.getItem("civicvoice_issues");
+  const storedBadges = localStorage.getItem("civicvoice_badges");
+  const storedUsers = localStorage.getItem("civicvoice_users");
+  const storedCurrentUser = localStorage.getItem("civicvoice_current_user");
+  const storedNotifications = localStorage.getItem("civicvoice_notifications");
 
   let parsedUsers: User[] = storedUsers ? JSON.parse(storedUsers) : [];
   parsedUsers = parsedUsers.filter(u => {
@@ -333,12 +333,12 @@ export function saveStoredData(data: {
   notifications?: AppNotification[];
 }) {
   if (typeof window !== "undefined") {
-    localStorage.setItem("community_hero_issues", JSON.stringify(data.issues));
-    localStorage.setItem("community_hero_badges", JSON.stringify(data.badges));
-    localStorage.setItem("community_hero_users", JSON.stringify(data.users));
-    localStorage.setItem("community_hero_current_user", JSON.stringify(data.currentUser));
+    localStorage.setItem("civicvoice_issues", JSON.stringify(data.issues));
+    localStorage.setItem("civicvoice_badges", JSON.stringify(data.badges));
+    localStorage.setItem("civicvoice_users", JSON.stringify(data.users));
+    localStorage.setItem("civicvoice_current_user", JSON.stringify(data.currentUser));
     if (data.notifications) {
-      localStorage.setItem("community_hero_notifications", JSON.stringify(data.notifications));
+      localStorage.setItem("civicvoice_notifications", JSON.stringify(data.notifications));
     }
   }
 }

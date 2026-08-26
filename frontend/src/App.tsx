@@ -67,7 +67,7 @@ export default function App() {
   };
   const [theme, setTheme] = useState<"light" | "dark">(() => {
     if (typeof window !== "undefined") {
-      const savedTheme = localStorage.getItem("community_hero_theme");
+      const savedTheme = localStorage.getItem("civicvoice_theme");
       return (savedTheme as "light" | "dark") || "dark"; // Default to dark theme
     }
     return "light";
@@ -79,7 +79,7 @@ export default function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
     if (typeof window !== "undefined") {
-      return localStorage.getItem("community_hero_is_logged_in") === "true";
+      return localStorage.getItem("civicvoice_is_logged_in") === "true";
     }
     return false;
   });
@@ -100,7 +100,7 @@ export default function App() {
   const toggleTheme = () => {
     setTheme((prev) => {
       const next = prev === "dark" ? "light" : "dark";
-      localStorage.setItem("community_hero_theme", next);
+      localStorage.setItem("civicvoice_theme", next);
       return next;
     });
   };
@@ -835,10 +835,10 @@ export default function App() {
   };
 
   const handleResetData = () => {
-    localStorage.removeItem("community_hero_issues");
-    localStorage.removeItem("community_hero_badges");
-    localStorage.removeItem("community_hero_users");
-    localStorage.removeItem("community_hero_current_user");
+    localStorage.removeItem("civicvoice_issues");
+    localStorage.removeItem("civicvoice_badges");
+    localStorage.removeItem("civicvoice_users");
+    localStorage.removeItem("civicvoice_current_user");
     window.location.reload();
   };
 
@@ -862,7 +862,7 @@ export default function App() {
       });
       triggerXpPop(10, `Logged in: ${finalUser.name}`);
       setIsLoggedIn(true);
-      localStorage.setItem("community_hero_is_logged_in", "true");
+      localStorage.setItem("civicvoice_is_logged_in", "true");
     } else {
       const nameToUse = userName ? userName.trim() : userEmail.split("@")[0];
       const rawPassword = password || "password123";
@@ -886,7 +886,7 @@ export default function App() {
       });
       triggerXpPop(10, `Created account for ${nameToUse}`);
       setIsLoggedIn(true);
-      localStorage.setItem("community_hero_is_logged_in", "true");
+      localStorage.setItem("civicvoice_is_logged_in", "true");
     }
   };
 
@@ -914,7 +914,7 @@ export default function App() {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    localStorage.removeItem("community_hero_is_logged_in");
+    localStorage.removeItem("civicvoice_is_logged_in");
     triggerXpPop(5, "Signed Out Successfully");
     setActiveTab("home");
   };

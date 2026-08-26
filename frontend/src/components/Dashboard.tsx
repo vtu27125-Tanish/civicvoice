@@ -198,7 +198,7 @@ export default function Dashboard({ issues, theme = "dark" }: DashboardProps) {
   const handleExportReport = () => {
     const reportContent = `
 =========================================
-      COMMUNITY HERO - IMPACT REPORT
+      CivicVoice - IMPACT REPORT
 =========================================
 Generated on: ${new Date().toLocaleDateString()}
 Report Context: Hyperlocal Civic Solver
@@ -219,7 +219,7 @@ SUGGESTED ACTIONS FOR PREVENTIVE MAINTENANCE:
 ${insights ? insights.suggestedActions.map((a, i) => `${i + 1}. ${a}`).join("\n") : "Generating action logs..."}
 
 CIVIC EMPOWERMENT:
-${insights ? insights.communityTip : "Be a community hero!"}
+${insights ? insights.communityTip : "Be a CivicVoice!"}
 =========================================
     Thank you for building a better world.
 =========================================
@@ -228,7 +228,7 @@ ${insights ? insights.communityTip : "Be a community hero!"}
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", `community_hero_civic_report_${new Date().toISOString().split("T")[0]}.txt`);
+    link.setAttribute("download", `civicvoice_civic_report_${new Date().toISOString().split("T")[0]}.txt`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
