@@ -67,7 +67,7 @@ export default function HowItWorks() {
 
   return (
     <div style={{ marginBottom: 8 }}>
-      <div className="label-caps" style={{ marginBottom: 12 }}>How CivicVoice works</div>
+      <div className="label-caps" style={{ marginBottom: 12 }}>How Vexa AI works</div>
       <Timeline data={data} />
     </div>
   );

@@ -111,13 +111,13 @@ export default function OfficialDashboard({ token, onLogout }) {
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
       <aside style={{
-        width: 260, background: 'white', borderRight: '1px solid var(--outline-variant)',
+        width: 260, background: '#0F1629', borderRight: '1px solid rgba(124,58,237,0.12)',
         display: 'flex', flexDirection: 'column', position: 'fixed', height: '100vh', top: 0, left: 0
       }}>
         <div style={{ padding: 24, display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span className="material-symbols-outlined" style={{ color: 'var(--primary)', fontSize: 28 }}>account_balance</span>
-          <span style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 700, fontSize: 18, color: 'var(--primary)' }}>
-            CivicVoice
+          <span className="material-symbols-outlined" style={{ color: 'var(--primary)', fontSize: 28 }}>neurology</span>
+          <span style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: 18, background: 'linear-gradient(135deg, #7C3AED, #06B6D4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+            Vexa AI
           </span>
         </div>
 

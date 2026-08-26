@@ -37,7 +37,7 @@ export default function CitizenMap({ token }) {
 
   return (
     <div className="app-shell">
-      <div className="eyebrow">CivicVoice</div>
+      <div className="eyebrow">Vexa AI</div>
       <h1 className="page-title" style={{ fontSize: 26 }}>Nearby reports</h1>
       <p className="page-sub">See what's already been reported around you — colored by urgency.</p>
 

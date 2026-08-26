@@ -149,9 +149,9 @@ export default function ReportForm({ token }) {
 
   return (
     <div className="app-shell">
-      <div className="eyebrow">CivicVoice</div>
+      <div className="eyebrow">Vexa AI</div>
       <h1 className="page-title">New grievance report</h1>
-      <p className="page-sub">Speak or type — CivicVoice Intelligence classifies and routes it automatically.</p>
+      <p className="page-sub">Speak or type — Vexa Intelligence classifies and routes it automatically.</p>
 
       <form onSubmit={handleSubmit}>
         <div className="card">

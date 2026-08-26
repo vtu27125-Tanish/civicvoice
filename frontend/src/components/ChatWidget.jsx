@@ -77,7 +77,7 @@ export default function ChatWidget({ token }) {
             }}
           >
             <div style={{ background: 'var(--primary-container)', color: 'white', padding: '14px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 700, fontSize: 14 }}>CivicVoice Assistant</span>
+              <span style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 700, fontSize: 14 }}>Vexa AI Assistant</span>
               <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', fontSize: 16 }}>✕</button>
             </div>
 

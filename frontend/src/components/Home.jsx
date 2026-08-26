@@ -88,14 +88,14 @@ export default function Home({ token, onNavigateReport }) {
         >
           <div style={{
             width: 36, height: 36, borderRadius: 10,
-            background: 'linear-gradient(135deg, #00E5CC, #4F8EFF)',
+            background: 'linear-gradient(135deg, #7C3AED, #06B6D4)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 4px 16px rgba(0,229,204,0.3)'
+            boxShadow: '0 4px 16px rgba(124,58,237,0.35)'
           }}>
-            <span className="material-symbols-outlined" style={{ color: '#080C14', fontSize: 18 }}>campaign</span>
+            <span className="material-symbols-outlined" style={{ color: '#FFFFFF', fontSize: 18 }}>neurology</span>
           </div>
           <div>
-            <div className="eyebrow" style={{ marginBottom: 0 }}>CivicVoice</div>
+            <div className="eyebrow" style={{ marginBottom: 0 }}>Vexa AI</div>
             <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Community Feed</div>
           </div>
         </motion.div>
@@ -110,7 +110,7 @@ export default function Home({ token, onNavigateReport }) {
         style={{ fontSize: 32, fontWeight: 800, letterSpacing: '-0.03em', marginBottom: 10 }}
       >
         See it.{' '}
-        <span style={{ background: 'linear-gradient(135deg, #00E5CC, #4F8EFF)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+        <span style={{ background: 'linear-gradient(135deg, #7C3AED, #06B6D4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
           Report it.
         </span>{' '}
         Track it.
@@ -122,7 +122,7 @@ export default function Home({ token, onNavigateReport }) {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="page-sub"
       >
-        Every report is auto-classified and prioritized by CivicVoice AI — no complaint gets lost.
+        Every report is auto-classified and prioritized by Vexa AI — no complaint gets lost.
       </motion.p>
 
       {/* Stats banner */}
@@ -178,7 +178,7 @@ export default function Home({ token, onNavigateReport }) {
           {!loading && feed.length > 0 && (
             <span style={{
               fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 999,
-              background: 'rgba(0,229,204,0.12)', color: 'var(--brand-teal)',
+              background: 'rgba(124,58,237,0.12)', color: 'var(--brand-teal)',
               fontFamily: "'JetBrains Mono', monospace"
             }}>{feed.length}</span>
           )}

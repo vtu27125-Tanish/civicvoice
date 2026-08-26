@@ -21,17 +21,17 @@ function decodeRole(token) {
 function Profile({ user, onLogout }) {
   return (
     <div className="app-shell">
-      <div className="eyebrow" style={{ marginBottom: 8 }}>CivicVoice</div>
+      <div className="eyebrow" style={{ marginBottom: 8 }}>Vexa AI</div>
       <h1 className="page-title" style={{ marginBottom: 24 }}>Profile</h1>
       <div className="card" style={{ padding: 28 }}>
         {/* Avatar */}
         <div style={{
           width: 64, height: 64, borderRadius: 20, marginBottom: 16,
-          background: 'linear-gradient(135deg, #00E5CC, #4F8EFF)',
+          background: 'linear-gradient(135deg, #7C3AED, #06B6D4)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          boxShadow: '0 8px 24px rgba(0,229,204,0.25)'
+          boxShadow: '0 8px 24px rgba(124,58,237,0.30)'
         }}>
-          <span className="material-symbols-outlined" style={{ color: '#080C14', fontSize: 30 }}>person</span>
+          <span className="material-symbols-outlined" style={{ color: '#FFFFFF', fontSize: 30 }}>person</span>
         </div>
 
         <p style={{ fontSize: 18, fontWeight: 700, marginBottom: 4, fontFamily: "'Outfit', sans-serif", color: 'var(--text-primary)' }}>
@@ -43,7 +43,7 @@ function Profile({ user, onLogout }) {
 
         <div style={{
           display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 12px',
-          borderRadius: 999, background: 'rgba(0,229,204,0.1)', border: '1px solid rgba(0,229,204,0.2)',
+          borderRadius: 999, background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)',
           marginBottom: 24
         }}>
           <span className="material-symbols-outlined" style={{ fontSize: 14, color: 'var(--brand-teal)' }}>verified</span>

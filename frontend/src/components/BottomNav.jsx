@@ -74,8 +74,8 @@ function DockIcon({ item, isActive, mouseX, onClick }) {
           transition={{ type: 'spring', stiffness: 350, damping: 26 }}
           style={{
             position: 'absolute', top: -14, width: ITEM_SIZE, height: ITEM_SIZE, borderRadius: '50%',
-            background: 'linear-gradient(135deg, #00E5CC, #4F8EFF)',
-            boxShadow: '0 0 20px rgba(0,229,204,0.4)'
+            background: 'linear-gradient(135deg, #7C3AED, #06B6D4)',
+            boxShadow: '0 0 20px rgba(124,58,237,0.45)'
           }}
         />
       )}
@@ -89,7 +89,7 @@ function DockIcon({ item, isActive, mouseX, onClick }) {
           transition={{ duration: 1.8, repeat: Infinity, delay, ease: 'easeOut' }}
           style={{
             position: 'absolute', top: -14, width: ITEM_SIZE, height: ITEM_SIZE, borderRadius: '50%',
-            border: '2px solid rgba(0,229,204,0.4)', pointerEvents: 'none'
+            border: '2px solid rgba(124,58,237,0.4)', pointerEvents: 'none'
           }}
         />
       ))}
@@ -98,7 +98,7 @@ function DockIcon({ item, isActive, mouseX, onClick }) {
         className="material-symbols-outlined"
         animate={{
           y: isActive ? -14 : 0,
-          color: isActive ? '#080C14' : 'rgba(255,255,255,0.35)'
+          color: isActive ? '#FFFFFF' : 'rgba(255,255,255,0.35)'
         }}
         whileHover={!isActive ? { color: 'var(--brand-teal)' } : {}}
         transition={{ type: 'spring', stiffness: 400, damping: 28 }}
@@ -124,7 +124,7 @@ export default function BottomNav({ active, onChange }) {
         backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
         border: '1px solid rgba(255,255,255,0.09)', borderRadius: 9999,
         padding: '10px 16px',
-        boxShadow: '0 8px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,229,204,0.06), inset 0 1px 0 rgba(255,255,255,0.05)',
+        boxShadow: '0 8px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,58,237,0.10), inset 0 1px 0 rgba(255,255,255,0.05)',
         zIndex: 40
       }}
     >
