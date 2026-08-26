@@ -78,13 +78,27 @@ export default function InteractiveMap({
       map.setView([20.5937, 78.9629], 5); // India center
     }
 
-    // Try geolocation to focus close to the user in picker mode
+    // Try geolocation to focus close to the user and show their live location
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          if (isPickerModeRef.current) {
-            map.setView([position.coords.latitude, position.coords.longitude], 13);
-          }
+          const userLat = position.coords.latitude;
+          const userLng = position.coords.longitude;
+
+          // Add a Live Location blue dot
+          L.circleMarker([userLat, userLng], {
+            radius: 8,
+            fillColor: "#3b82f6",
+            color: "#ffffff",
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.9,
+          })
+            .addTo(map)
+            .bindPopup("<b>Your Live Location</b>");
+
+          // Zoom into the user's live location automatically
+          map.setView([userLat, userLng], 13);
         },
         () => {},
         { timeout: 4000 }
