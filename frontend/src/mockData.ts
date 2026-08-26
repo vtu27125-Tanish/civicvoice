@@ -2,7 +2,7 @@ import { Issue, Badge, User, AppNotification } from "./types";
 import { hashPassword, isHex64 } from "./utils/crypto";
 
 // Seed coordinates centered globally as default
-export const DEFAULT_MAP_CENTER: [number, number] = [20, 0];
+export const DEFAULT_MAP_CENTER: [number, number] = [20.5937, 78.9629];
 
 export const INITIAL_BADGES: Badge[] = [
   {
@@ -66,16 +66,16 @@ export const INITIAL_USERS: User[] = [];
 export const INITIAL_ISSUES: Issue[] = [
   {
     id: "iss-001",
-    title: "Severe Road Surface Potholes (London)",
-    description: "Multiple critical potholes on the main junction in Westminster, near the parliament building. Cars are swerving into oncoming traffic to avoid them, causing a severe hazard during commute hours.",
+    title: "Severe Road Surface Potholes (Andheri, Mumbai)",
+    description: "Multiple critical potholes on the main junction in Andheri West, near the metro station. Cars are swerving into oncoming traffic to avoid them, causing a severe hazard during commute hours.",
     category: "Road Hazards",
     severity: "High",
     status: "In Progress",
     upvotes: 48,
     upvotedBy: ["anonymous@hero.org"],
     verifiedBy: ["amit.patel@vmc.gov.in"],
-    latitude: 51.5007,
-    longitude: -0.1246,
+    latitude: 19.1136,
+    longitude: 72.8697,
     imageUrl: "https://images.unsplash.com/photo-1515162305285-0293e4767cc2?auto=format&fit=crop&q=80&w=800",
     createdAt: new Date(Date.now() - 36 * 3600000).toISOString(), // 36h ago
     creatorEmail: "anonymous@hero.org",
@@ -86,30 +86,30 @@ export const INITIAL_ISSUES: Issue[] = [
         id: "upd-1",
         text: "Municipal team has inspected the site and spray-marked the target area.",
         date: new Date(Date.now() - 24 * 3600000).toISOString(),
-        author: "City Council Admin",
+        author: "BMC Road Admin",
         status: "In Progress",
       },
       {
         id: "upd-2",
         text: "Contractor assigned. Repair scheduled for tomorrow morning.",
         date: new Date(Date.now() - 4 * 3600000).toISOString(),
-        author: "City Road Department",
+        author: "Municipal Contractor",
         status: "In Progress",
       },
     ],
   },
   {
     id: "iss-002",
-    title: "Broken Streetlight near Golden Gate Park (San Francisco)",
-    description: "An entire section of the community pedestrian walkway in Golden Gate Park is completely pitch black. Extremely dangerous at night, safety concern for walking students and evening runners.",
+    title: "Broken Streetlight near Cubbon Park (Bangalore)",
+    description: "An entire section of the community pedestrian walkway in Cubbon Park is completely pitch black. Extremely dangerous at night, safety concern for walking students and evening runners.",
     category: "Streetlights",
     severity: "High",
     status: "Pending",
     upvotes: 32,
     upvotedBy: [],
     verifiedBy: [],
-    latitude: 37.7694,
-    longitude: -122.4862,
+    latitude: 12.9778,
+    longitude: 77.5936,
     imageUrl: "https://images.unsplash.com/photo-1509024644558-2f060d04b1a3?auto=format&fit=crop&q=80&w=800",
     createdAt: new Date(Date.now() - 12 * 3600000).toISOString(), // 12h ago
     creatorEmail: "anonymous@hero.org",
@@ -146,16 +146,16 @@ export const INITIAL_ISSUES: Issue[] = [
   },
   {
     id: "iss-004",
-    title: "Illegal Trash Dumping near Shibuya Crossing (Tokyo)",
-    description: "Old mattresses, tires, and broken television sets dumped right at a pedestrian alleyway near Shibuya Crossing. Attracting vermin and blocking sidewalk access.",
+    title: "Illegal Trash Dumping near Connaught Place (New Delhi)",
+    description: "Old mattresses, tires, and broken television sets dumped right at a pedestrian alleyway near Connaught Place. Attracting vermin and blocking sidewalk access.",
     category: "Waste Management",
     severity: "High",
     status: "Resolved",
     upvotes: 54,
     upvotedBy: ["rajesh@shahfamily.org"],
     verifiedBy: ["rajesh@shahfamily.org"],
-    latitude: 35.6595,
-    longitude: 139.7004,
+    latitude: 28.6304,
+    longitude: 77.2177,
     imageUrl: "https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?auto=format&fit=crop&q=80&w=800",
     createdAt: new Date(Date.now() - 72 * 3600000).toISOString(), // 3 days ago
     creatorEmail: "anonymous@hero.org",
@@ -166,30 +166,30 @@ export const INITIAL_ISSUES: Issue[] = [
         id: "upd-4",
         text: "Sanitation squad scheduled.",
         date: new Date(Date.now() - 48 * 3600000).toISOString(),
-        author: "Municipal Sanitation Department",
+        author: "NDMC Sanitation Department",
         status: "In Progress",
       },
       {
         id: "upd-5",
         text: "Trash cleared and recycled successfully. Alleyway reopened!",
         date: new Date(Date.now() - 10 * 3600000).toISOString(),
-        author: "Municipal Sanitation Department",
+        author: "NDMC Sanitation Department",
         status: "Resolved",
       },
     ],
   },
   {
     id: "iss-005",
-    title: "Damaged Public Park Benches near Eiffel Tower (Paris)",
-    description: "Main seating park benches in Champ de Mars near the Eiffel Tower have been spray-painted over and one bench has broken wooden panels which could cause injury.",
+    title: "Damaged Public Park Benches near India Gate (New Delhi)",
+    description: "Main seating park benches near India Gate have been spray-painted over and one bench has broken wooden panels which could cause injury.",
     category: "Public Facilities",
     severity: "Low",
     status: "Pending",
     upvotes: 9,
     upvotedBy: [],
     verifiedBy: [],
-    latitude: 48.8556,
-    longitude: 2.2986,
+    latitude: 28.6129,
+    longitude: 77.2295,
     imageUrl: undefined, // Demonstrating fallback category icon
     createdAt: new Date(Date.now() - 180 * 60000).toISOString(), // 3h ago
     creatorEmail: "anonymous@hero.org",
