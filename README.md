@@ -30,7 +30,7 @@ CivicVoice is a next-generation platform bridging the gap between citizens and l
 - **React** with Vite for lightning-fast UI rendering
 - **Framer Motion** for fluid, dynamic micro-animations
 - **Recharts** & **React-Leaflet** for interactive data visualization and maps
-- **Vanilla CSS** with a stunning, premium dark/light adaptive design system
+- **Tailwind CSS v4** with a stunning, premium dark/light adaptive design system and modern micro-interactions
 
 **Backend & AI**
 - **Node.js + Express** serving robust REST APIs
