@@ -1,68 +1,86 @@
-# CivicVoice — AI-Powered Civic Grievance Redressal Platform
+# 🏙️ CivicVoice — AI-Powered Civic Grievance Redressal Platform
 
-Citizens report local issues (potholes, water leaks, garbage, electricity faults) via
-voice or text — an ML microservice auto-categorizes and prioritizes each report, and
-officials track/resolve them on a real-time dashboard.
+CivicVoice is a next-generation platform bridging the gap between citizens and local authorities. By leveraging modern web technologies and advanced Artificial Intelligence (Google Gemini 2.5 Flash), CivicVoice transforms how municipal issues—from potholes to broken streetlights—are reported, tracked, and resolved.
 
-## Project Structure
+---
+
+## ✨ Key Features
+
+### 📸 AI-Powered Smart Reporting
+- **Image Auto-Analysis**: Citizens upload photo evidence, and Gemini AI instantly auto-categorizes the issue (e.g., Road Hazards, Water & Sanitation) and extracts a highly descriptive, professional summary.
+- **Multimodal Inputs**: Speak, type, or snap a photo. The system normalizes and processes input intelligently.
+
+### 🤖 Autonomous Priority Agent
+- **Zero-Touch Dispatch**: On every submission, a background AI agent autonomously scans for similar nearby issues to detect duplicates.
+- **Dynamic Priority Scoring**: The agent assigns a Priority Score (0-100) based on severity, category risk, and duplicate volume, posting an official dispatch note directly into the issue's timeline.
+
+### 🔮 Predictive AI Insights Dashboard
+- **Proactive Urban Planning**: Officials have access to a real-time analytics dashboard powered by Recharts and Leaflet maps.
+- **AI Trend Analysis**: Gemini analyzes recent community reports to identify at-risk infrastructure, predict future hotspots, and suggest actionable preventative maintenance steps.
+
+### 🗺️ Live Hotspot Mapping & Gamification
+- **Geospatial Tracking**: Every report is mapped using exact GPS coordinates. High-density complaint areas are automatically clustered.
+- **Community XP**: Citizens earn XP for reporting, bringing gamification and community engagement to civil maintenance.
+
+---
+
+## 🛠️ Technology Stack
+
+**Frontend**
+- **React** with Vite for lightning-fast UI rendering
+- **Framer Motion** for fluid, dynamic micro-animations
+- **Recharts** & **React-Leaflet** for interactive data visualization and maps
+- **Vanilla CSS** with a stunning, premium dark/light adaptive design system
+
+**Backend & AI**
+- **Node.js + Express** serving robust REST APIs
+- **MySQL** (Aiven Cloud) for reliable relational data storage
+- **Socket.IO** for real-time dashboard updates across all clients
+- **Google Gemini 2.5 Flash (`@google/genai`)** for complex visual reasoning, predictive analytics, and autonomous agent tasks
+
+---
+
+## ⚙️ Running Locally
+
+### 1. Database Setup
+Ensure you have MySQL installed.
+```bash
+mysql -u root -p < backend/database/schema.sql
 ```
-civicvoice/
-├── backend/          # Node.js + Express + MySQL + Socket.IO
-│   ├── src/
-│   │   ├── config/db.js
-│   │   ├── middleware/auth.js
-│   │   ├── routes/authRoutes.js
-│   │   ├── routes/reportRoutes.js
-│   │   └── server.js
-│   └── database/schema.sql
-├── ml-service/       # Python + FastAPI (classification microservice)
-│   ├── main.py
-│   ├── train_classifier.py
-│   └── data/labeled_complaints.csv
-└── frontend/         # React (to be built next)
-```
 
-## Setup — Backend
+### 2. Backend
+Navigate to the `backend` directory, install dependencies, and configure your environment.
 ```bash
 cd backend
 npm install
-cp .env.example .env      # fill in your MySQL password + JWT secret
-mysql -u root -p < database/schema.sql
-npm run dev                # starts on http://localhost:5000
+cp .env.example .env 
 ```
-
-## Setup — ML Service
+*Be sure to add your `DB_HOST`, `DB_PASSWORD`, `JWT_SECRET`, and `GEMINI_API_KEY` to your `.env` file.*
 ```bash
-cd ml-service
-pip install -r requirements.txt
-uvicorn main:app --reload --port 8000
+npm run dev
 ```
-Test it:
+The backend server runs on `http://localhost:5000`.
+
+### 3. Frontend
+Navigate to the `frontend` directory in a new terminal tab.
 ```bash
-curl -X POST http://localhost:8000/classify \
-  -H "Content-Type: application/json" \
-  -d '{"text": "Sewage overflowing near the school, dangerous"}'
+cd frontend
+npm install
+npm run dev
 ```
+The application will be accessible at `http://localhost:5173`.
 
-## Training the real classifier (Week 5 task)
-1. Expand `ml-service/data/labeled_complaints.csv` to 200–500 rows across all categories
-2. Run `python train_classifier.py`
-3. It saves `model.pkl` + `vectorizer.pkl` — restart `main.py`, it auto-loads them
+---
 
-## API Endpoints (Backend)
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | /api/auth/register | Create citizen/official account |
-| POST | /api/auth/login | Login, returns JWT |
-| POST | /api/reports | Submit a new report (auto-classified) |
-| GET | /api/reports | List reports (filterable by category/status/urgency) |
-| GET | /api/reports/:id | Report detail + status history |
-| PATCH | /api/reports/:id/status | Official updates status |
-| GET | /api/reports/analytics/summary | Dashboard stats |
+## 🏛️ Access & Roles
 
-## What's Next
-- [ ] React frontend (citizen report form + official dashboard)
-- [ ] Google Speech-to-Text integration for voice input
-- [ ] Sentence-BERT duplicate detection
-- [ ] DBSCAN hotspot clustering job
-- [ ] Deploy (Render/Railway + PlanetScale/Railway MySQL)
+- **Citizen View**: Register a new account from the home screen to access the Smart Report Form.
+- **Official Dashboard**: Login with an Admin or Official account (e.g., `admin@civicvoice.com`) to access the Predictive Insights Dashboard and Priority Queue.
+
+---
+
+## 🚀 Deployment
+
+- Frontend optimized for Vercel / Netlify.
+- Backend ready for Render / Railway.
+- Database hosted on Aiven Cloud MySQL.
